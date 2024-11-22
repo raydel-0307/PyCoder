@@ -2,6 +2,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import os
 import time
 from metrics import get_time
+import torch
 
 def TrainModel(ruta,model_name,settings):
 
@@ -10,6 +11,8 @@ def TrainModel(ruta,model_name,settings):
     model_path = f"{ruta}/model"
 
     os.makedirs(model_path, exist_ok=True)
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
@@ -27,6 +30,8 @@ def MainModel(ruta,model_name,prompt,settings):
     init_time = time.perf_counter()
 
     model_path = f"{ruta}/model"
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
@@ -48,7 +53,7 @@ def MainModel(ruta,model_name,prompt,settings):
         add_generation_prompt=settings["add_generation_prompt"]
     )
 
-    model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
+    model_inputs = tokenizer([text], return_tensors="pt").to(device)
 
     generated_ids = model.generate(
         **model_inputs,
