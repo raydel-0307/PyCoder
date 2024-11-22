@@ -1,0 +1,12 @@
+{
+	"model_name":"Qwen/Qwen2.5-Coder-1.5B-Instruct",
+	"prompt": "Hazme un simple ejemplo de un codigo de python",
+	"settings":{
+		"torch_dtype":"auto",
+		"device_map":"auto",
+		"tokenize":false,
+        "add_generation_prompt":true,
+        "max_new_tokens":512,
+        "skip_special_tokens":true
+	}
+}
